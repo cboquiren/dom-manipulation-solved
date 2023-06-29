@@ -12,6 +12,7 @@
  */
 
 // Your code goes here...
+const allItems = document.querySelectorAll('.item')
 
 
 
@@ -23,7 +24,7 @@
  * */
 
 // Your code goes here
-
+const main = document.getElementById('main');
 
 
 /**
@@ -34,6 +35,7 @@
  */
 
 // Your code goes here
+const favs = document.getElementById('favs');
 
 
 
@@ -47,6 +49,22 @@
  */
 
 // Your code goes here
+
+const updateCollections = (id, direction) => {
+  const newLocation = direction === 'toFavs' ? favs : main;
+  const fullHeart = 'fa-heart-circle-plus';
+  const brokenHeart = 'fa-heart-crack';
+
+  const item = document.getElementById(`${id}`);
+  item.firstElementChild.classList.remove(`${
+    direction === 'toFavs' ? fullHeart : brokenHeart
+  }`)
+  item.firstElementChild.classList.add(`${
+    direction === 'toFavs' ? brokenHeart : fullHeart
+  }`)
+
+  newLocation.append(item);
+}
 
 
 
@@ -65,5 +83,14 @@
  */
 
 // Your code goes here...
+
+for (const item of allItems) {
+  item.addEventListener('click', () => {
+    const currentCollection = item.parentElement.getAttribute('id');
+    const itemId = item.getAttribute('id');
+    const direction = currentCollection === 'main' ? 'toFavs' : 'toMain';
+    updateCollections(itemId, direction);
+  })
+}
 
 
