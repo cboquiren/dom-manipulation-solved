@@ -38,3 +38,43 @@
  */
 
 // Your code goes here...
+
+
+const container = document.querySelector('.cardsContainer');
+
+const toRed = () => {
+  let list = localStorage.getItem('favorites');
+  list.split(',').forEach(id => {
+    let item = document.getElementById(`${id}`);
+    item.classList.add('red');
+  })
+}
+
+if (localStorage.getItem('favorites')) {
+  toRed();
+}
+
+const colorChange = (event) => {
+  const card = event.target;
+  const id = card.getAttribute('id');
+
+  if (!Array.from(card.classList).includes('cardsContainer')) {
+    if (Array.from(card.classList).includes('red')) {
+      card.classList.remove('red');
+      let arr = localStorage.getItem('favorites').split(',');
+      arr.splice(arr.indexOf(id), 1).join(',');
+      localStorage.setItem('favorites', arr);
+    } else {
+      let arr = [];
+      if (localStorage.getItem('favorites')) {
+        let favs = localStorage.getItem('favorites').split(',');
+        favs.forEach(id => arr.push(id));
+      }
+      arr.push(id);
+      localStorage.setItem('favorites', arr);
+      toRed();
+    }
+  }
+}
+
+container.addEventListener('click', colorChange);
